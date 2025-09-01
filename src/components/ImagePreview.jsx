@@ -20,7 +20,7 @@ const ImagePreview = ({ designImage, widthFt, widthIn, heightFt, heightIn }) => 
   const swiperRef = useRef(null);
 
   const images = [
-    { src: 'images/mask_1.jpeg', type: 'front' },
+    { src: 'images/mask_1.png', type: 'front' },
     { src: 'images/mask_3.png', type: 'mask' },
     { src: 'images/sample_3.jpeg', type: 'video', videoSrc: 'videos/sq_wallpaper.mp4' },
     { src: 'images/sample_5.png', type: 'image' },
@@ -93,6 +93,8 @@ const ImagePreview = ({ designImage, widthFt, widthIn, heightFt, heightIn }) => 
           WebkitMaskRepeat: 'no-repeat',
           WebkitMaskSize: 'contain',
           WebkitMaskPosition: 'center bottom',
+          backgroundSize: '100% 100%',
+          backgroundPosition: 'center',
         }}
       />
     </div>

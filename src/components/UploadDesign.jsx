@@ -1,4 +1,10 @@
 import React, { useRef } from 'react';
+import { FaPlus, FaTimes } from 'react-icons/fa';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 const defaultDesigns = [
   { src: 'design/design_1.png' },
@@ -23,7 +29,6 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
   };
 
   const handleDesignClick = (design) => {
-    // Toggle off if already selected and not custom
     if (selectedDesign?.src === design.src && !selectedDesign?.isCustom) {
       onDesignSelect(null);
     } else {
@@ -32,19 +37,19 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
   };
 
   return (
-    <div className="mb-4">
-      <h2 className="text-sm font-medium mb-2">Upload Design</h2>
-
-      <div className="flex items-center gap-4">
-        {/* Upload Button */}
-        <div className="flex flex-col items-center">
-          <button
-            type="button"
-            onClick={() => fileInputRef.current.click()}
-            className="w-24 h-24 border-2 border-dashed border-pink-500 text-pink-500 text-sm flex items-center justify-center rounded"
-          >
-            + Upload
-          </button>
+    <div className="w-full mb-3">
+      <div className="flex items-start gap-3">
+        {/* Upload Box */}
+        <div
+          className="flex flex-col items-center justify-center mt-5 bg-white border border-gray-300 rounded-lg cursor-pointer w-30 h-25 hover:shadow "
+          onClick={() => fileInputRef.current.click()}
+        >
+          <div className="flex items-center justify-center mt-3 text-xl text-white bg-pink-500 rounded-full h-7 w-7">
+            <FaPlus />
+          </div>
+          <p className="px-1 text-sm leading-tight text-center text-pink-500">
+            Upload Design
+          </p>
           <input
             ref={fileInputRef}
             type="file"
@@ -54,34 +59,87 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
           />
         </div>
 
-        {/* Predefined Design Thumbnails */}
-        <div className="flex overflow-x-auto gap-2">
-          {defaultDesigns.map((design, idx) => {
-            const isSelected = selectedDesign?.src === design.src && !selectedDesign?.isCustom;
+        {/* Divider */}
+        <div className="flex flex-col items-center justify-center shrink-0 h-28">
+          <div className="flex flex-col items-center justify-center h-full">
+            <div className="w-px h-full bg-gray-300" />
+            <span className="my-2 text-sm text-gray-400">or</span>
+            <div className="w-px h-full bg-gray-300" />
+          </div>
+        </div>
 
-            return (
-              <div
-                key={idx}
-                className={`relative w-24 h-24 rounded border cursor-pointer ${
-                  isSelected ? 'border-pink-500' : 'border-gray-300'
-                }`}
-                onClick={() => handleDesignClick(design)}
-              >
-                <img
-                  src={design.src}
-                  alt={`Design ${idx + 1}`}
-                  className="w-full h-full object-cover rounded"
-                />
-                {isSelected && (
-                  <div className="absolute top-1 right-1 bg-pink-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                    ✓
+
+        {/* Swiper Thumbnails */}
+        <div className="flex-1 overflow-hidden">
+          <h2 className="mb-2 text-sm font-medium text-gray-800">
+            Select Design (30K+ Options)
+          </h2>
+
+          <Swiper
+            modules={[Navigation]}
+            slidesPerView={4}
+            spaceBetween={8}
+            navigation
+            className="hide-scrollbar"
+          >
+            {defaultDesigns.map((design, idx) => {
+              const isSelected =
+                selectedDesign?.src === design.src && !selectedDesign?.isCustom;
+
+              return (
+                <SwiperSlide key={idx}>
+                  <div
+                    className={`relative w-24 h-24 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${isSelected ? 'border-pink-500' : 'border-gray-300'
+                      }`}
+                    onClick={() => handleDesignClick(design)}
+                  >
+                    <img
+                      src={design.src}
+                      alt={`Design ${idx + 1}`}
+                      className="object-cover w-full h-full"
+                    />
+                    {isSelected && (
+                      <div
+                        className="absolute top-[-8px] right-[-8px] w-6 h-6 rounded-full bg-white border-2 border-pink-500 flex items-center justify-center text-xs text-black shadow-md z-10"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDesignSelect(null);
+                        }}
+                      >
+                        <FaTimes />
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
         </div>
       </div>
+
+      {/* Hide Scrollbar Styling */}
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .hide-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .swiper-button-next,
+        .swiper-button-prev {
+          color: #000;
+          background: #fff;
+          border-radius: 9999px;
+          width: 32px;
+          height: 32px;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+          font-size: 16px;
+        }
+      `}</style>
     </div>
   );
 };
