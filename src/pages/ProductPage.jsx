@@ -17,8 +17,8 @@ export default function ProductPage() {
   return (
     <>
       <main className="flex flex-col min-h-screen gap-6 p-6 md:flex-row bg-gray-50">
-  <ImagePreview designImage={selectedDesign} />
-  <ProductOptions
+    <ImagePreview designImage={selectedDesign} />
+    <ProductOptions
     selectedDesign={selectedDesign}
     onDesignSelect={setSelectedDesign}
     
