@@ -61,7 +61,7 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
 
         {/* Divider */}
         <div className="flex flex-col items-center justify-center shrink-0 h-28">
-          <div className="flex flex-col items-center justify-center h-full">
+          <div className="flex flex-col items-center justify-center h-20 mt-8">
             <div className="w-px h-full bg-gray-300" />
             <span className="my-2 text-sm text-gray-400">or</span>
             <div className="w-px h-full bg-gray-300" />
@@ -100,7 +100,7 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
                     />
                     {isSelected && (
                       <div
-                        className="absolute top-[-8px] right-[-8px] w-6 h-6 rounded-full bg-white border-2 border-pink-500 flex items-center justify-center text-xs text-black shadow-md z-10"
+                        className="absolute top-[0px] right-[-2px] w-5 h-5 rounded-full bg-black   border-pink-500 flex items-center justify-center text-md text-white shadow-md z-10 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           onDesignSelect(null);

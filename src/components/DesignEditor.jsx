@@ -132,6 +132,7 @@ const DesignEditor = ({ imageSrc }) => {
           setImagePosition={setImagePosition}
           rotation={rotation}
           setRotation={setRotation}
+
         />
       )}
     </div>
