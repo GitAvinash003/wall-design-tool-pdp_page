@@ -3,6 +3,8 @@ import MeasurementOptions from './MeasurementOptions.jsx';
 import TextureOptions from './TextureOptions.jsx';
 import QuantitySelector from './QuantitySelector.jsx';
 import UploadDesign from './UploadDesign.jsx';
+import ProductDescription from './ProductDescription';
+
 
 const predefinedSizes = [
   { label: `3' 8" X 5'`, widthFt: 3, widthIn: 8, heightFt: 5, heightIn: 0 },
@@ -28,9 +30,9 @@ const ProductOptions = ({ selectedDesign, onDesignSelect }) => {
   };
 
   return (
-    <section className="w-full md:w-1/2 bg-white p-6 rounded ">
+    <section className="w-full p-6 bg-white border-gray-300 rounded-lg border-1 md:w-1/2">
       {/* ... other UI and components ... */}
-
+       <ProductDescription />
       <UploadDesign selectedDesign={selectedDesign} onDesignSelect={onDesignSelect} />
 
       <MeasurementOptions
