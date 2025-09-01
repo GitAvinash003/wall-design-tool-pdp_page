@@ -13,7 +13,7 @@ const ImagePreview = ({ designImage, widthFt, widthIn, heightFt, heightIn }) => 
 
 
   const [selectedImage, setSelectedImage] = useState({
-    src: 'images/mask_1.jpeg',
+    src: 'images/mask_1.png',
     type: 'measurement',
   });
 
