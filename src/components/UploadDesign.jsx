@@ -37,11 +37,11 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
   };
 
   return (
-    <div className="w-full mb-3">
-      <div className="flex items-start gap-3">
+    <div className="w-full mb-4">
+      <div className="flex items-start justify-center gap-2 bg-gray-100 item-center">
         {/* Upload Box */}
         <div
-          className="flex flex-col items-center justify-center mt-5 bg-white border border-gray-300 rounded-lg cursor-pointer w-30 h-25 hover:shadow "
+          className="flex flex-col items-center justify-center m-3 bg-white border border-gray-300 rounded-lg cursor-pointer w-30 h-25 hover:shadow "
           onClick={() => fileInputRef.current.click()}
         >
           <div className="flex items-center justify-center mt-3 text-xl text-white bg-pink-500 rounded-full h-7 w-7">
@@ -70,7 +70,7 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
 
 
         {/* Swiper Thumbnails */}
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 p-2 overflow-hidden">
           <h2 className="mb-2 text-sm font-medium text-gray-800">
             Select Design (30K+ Options)
           </h2>
@@ -89,7 +89,7 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
               return (
                 <SwiperSlide key={idx}>
                   <div
-                    className={`relative w-24 h-24 rounded-lg overflow-hidden border-2 cursor-pointer transition-all ${isSelected ? 'border-pink-500' : 'border-gray-300'
+                    className={`relative w-24 h-23 rounded-lg overflow-hidden background-cover  p-1 cursor-pointer transition-all ${isSelected ? 'border-pink-500' : 'border-gray-300'
                       }`}
                     onClick={() => handleDesignClick(design)}
                   >
@@ -100,7 +100,7 @@ const UploadDesign = ({ selectedDesign, onDesignSelect }) => {
                     />
                     {isSelected && (
                       <div
-                        className="absolute top-[0px] right-[-2px] w-5 h-5 rounded-full bg-black   border-pink-500 flex items-center justify-center text-md text-white shadow-md z-10 cursor-pointer"
+                        className="absolute top-[0px] right-[0px] w-5 h-5 rounded-full bg-black   border-pink-500 flex items-center justify-center text-md text-white shadow-md z-10 cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation();
                           onDesignSelect(null);

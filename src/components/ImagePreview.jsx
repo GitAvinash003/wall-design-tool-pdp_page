@@ -14,7 +14,7 @@ const ImagePreview = ({ designImage, widthFt, widthIn, heightFt, heightIn }) => 
 
   const [selectedImage, setSelectedImage] = useState({
     src: 'images/mask_1.png',
-    type: 'measurement',
+    type: 'front',
   });
 
   const swiperRef = useRef(null);
@@ -46,10 +46,10 @@ const ImagePreview = ({ designImage, widthFt, widthIn, heightFt, heightIn }) => 
 
     if (selectedImage.type === 'front') {
       return (
-        <div className="relative p-2 bg-white rounded w-[539px] h-[638px]">
+        <div className="relative p-5 bg-white rounded w-[539px] h-[638px]">
           <img
             src={selectedImage.src}
-            alt="Measurement"
+            alt="front"
             className="absolute top-0 left-0 w-[539px] h-[638px] object-cover z-0"
           />
 
