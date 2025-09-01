@@ -74,7 +74,7 @@ const DesignEditor = ({ imageSrc }) => {
       />
 
       {/* Controls */}
-      <div className="flex items-center gap-6 bg-white rounded px-4 py-2 mt-3 shadow w-[600px] ">
+      <div className="flex items-center w-full gap-6 px-4 py-2 mt-3 bg-white rounded shadow ">
         <div className="flex flex-col">
           <label className="mb-1 text-xs font-medium">Scale Image</label>
           <input
