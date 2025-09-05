@@ -33,13 +33,15 @@ const EditDesignPanel = ({
     setDesignImage('');
   };
 
-  // Rotate by 90 degrees on each click (mod 360)
   const handleRotate = () => {
     setRotation((prev) => (prev + 90) % 360);
   };
 
   return (
-    <div className="fixed top-0 right-0 z-40 w-[400px] h-full bg-white border-l border-gray-200 shadow-xl p-5 overflow-y-auto">
+    <div
+      className="fixed top-0 right-0 z-50 w-[400px] h-full bg-white border-l border-gray-200 shadow-xl p-5 overflow-y-scroll scrollbar-none"
+      style={{ pointerEvents: 'auto' }}
+    >
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">Advanced Options</h2>
@@ -48,50 +50,60 @@ const EditDesignPanel = ({
         </button>
       </div>
 
-      {/* Pattern Repeat */}
+      {/* Pattern Toggle */}
       <div className="mb-6">
         <p className="mb-2 text-sm font-medium">Patterns</p>
         <div className="flex gap-2 mb-4">
           <button
-            className={`border p-2 w-1/2 rounded text-sm ${!repeatPattern ? 'border-pink-500 bg-pink-100' : 'border-gray-300'}`}
+            className={`border p-2 w-1/2 rounded text-sm ${
+              !repeatPattern ? 'border-pink-500 bg-pink-100' : 'border-gray-300'
+            }`}
             onClick={() => setRepeatPattern(false)}
           >
             No Repeat
           </button>
           <button
-            className={`border p-2 w-1/2 rounded text-sm ${repeatPattern ? 'border-pink-500 bg-pink-100' : 'border-gray-300'}`}
+            className={`border p-2 w-1/2 rounded text-sm ${
+              repeatPattern ? 'border-pink-500 bg-pink-100' : 'border-gray-300'
+            }`}
             onClick={() => setRepeatPattern(true)}
           >
             Repeat
           </button>
         </div>
 
-        <div className="mb-3">
-          <label className="block mb-1 text-sm font-medium">Repeat Patterns</label>
-          <input
-            type="range"
-            min="1"
-            max="10"
-            step="1"
-            value={repeatCount}
-            onChange={(e) => setRepeatCount(Number(e.target.value))}
-            className="w-full accent-pink-500"
-          />
-        </div>
+        {/* Conditional options - only show if "Repeat" is enabled */}
+        {repeatPattern && (
+          <>
+            <div className="mb-3">
+              <label className="block mb-1 text-sm font-medium">Repeat Patterns</label>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                step="1"
+                value={repeatCount}
+                onChange={(e) => setRepeatCount(Number(e.target.value))}
+                className="w-full accent-pink-500"
+              />
+            </div>
 
-        <div className="mb-3">
-          <label className="block mb-1 text-sm font-medium">Add Padding</label>
-          <input
-            type="range"
-            min="0"
-            max="100"
-            step="1"
-            value={padding}
-            onChange={(e) => setPadding(Number(e.target.value))}
-            className="w-full accent-pink-500"
-          />
-        </div>
+            <div className="mb-3">
+              <label className="block mb-1 text-sm font-medium">Add Padding</label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                value={padding}
+                onChange={(e) => setPadding(Number(e.target.value))}
+                className="w-full accent-pink-500"
+              />
+            </div>
+          </>
+        )}
 
+        {/* Always show: Border and Color Picker */}
         <div className="mb-3">
           <label className="block mb-1 text-sm font-medium">Border</label>
           <input
@@ -105,7 +117,6 @@ const EditDesignPanel = ({
           />
         </div>
 
-        {/* Color Picker */}
         <div className="flex items-center gap-2 mb-4">
           <span className="text-sm">Color</span>
           <label className="relative flex items-center cursor-pointer">
@@ -125,19 +136,25 @@ const EditDesignPanel = ({
         <p className="mb-2 text-sm font-medium">Image Position</p>
         <div className="flex justify-between mb-4 text-sm text-gray-600">
           <button
-            className={`px-3 py-1 rounded ${imagePosition === 'bottom' ? 'bg-pink-100 border border-pink-500' : 'border border-gray-300'}`}
+            className={`px-3 py-1 rounded ${
+              imagePosition === 'bottom' ? 'bg-pink-100 border border-pink-500' : 'border border-gray-300'
+            }`}
             onClick={() => setImagePosition('bottom')}
           >
             Bottom
           </button>
           <button
-            className={`px-3 py-1 rounded ${imagePosition === 'left' ? 'bg-pink-100 border border-pink-500' : 'border border-gray-300'}`}
+            className={`px-3 py-1 rounded ${
+              imagePosition === 'left' ? 'bg-pink-100 border border-pink-500' : 'border border-gray-300'
+            }`}
             onClick={() => setImagePosition('left')}
           >
             Left
           </button>
           <button
-            className={`px-3 py-1 rounded ${imagePosition === 'center' ? 'bg-pink-100 border border-pink-500' : 'border border-gray-300'}`}
+            className={`px-3 py-1 rounded ${
+              imagePosition === 'center' ? 'bg-pink-100 border border-pink-500' : 'border border-gray-300'
+            }`}
             onClick={() => setImagePosition('center')}
           >
             Center
@@ -152,7 +169,7 @@ const EditDesignPanel = ({
         </div>
       </div>
 
-      {/* Background Color Toggle & Preview */}
+      {/* Design preview + file upload/delete */}
       <div className="mb-6">
         <div className="p-2 mb-2 border-2 border-pink-400 rounded bg-gray-50">
           {designImage ? (
@@ -162,7 +179,12 @@ const EditDesignPanel = ({
               className="object-contain w-full h-40 mb-2"
               style={{
                 transform: `rotate(${rotation}deg)`,
-                objectPosition: imagePosition === 'bottom' ? 'center bottom' : imagePosition === 'left' ? 'left center' : 'center center',
+                objectPosition:
+                  imagePosition === 'bottom'
+                    ? 'center bottom'
+                    : imagePosition === 'left'
+                    ? 'left center'
+                    : 'center center',
               }}
             />
           ) : (

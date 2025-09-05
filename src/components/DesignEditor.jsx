@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiEdit2 } from 'react-icons/fi';
 import EditDesignPanel from './EditDesignPanel';
 
-const BOX_WIDTH = 539;
-const BOX_HEIGHT = 638;
+const BOX_WIDTH = 300;
+const BOX_HEIGHT = 414;
 
 const DesignEditor = ({ imageSrc }) => {
   const [scale, setScale] = useState(1);
@@ -11,7 +11,7 @@ const DesignEditor = ({ imageSrc }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   // Design editing states
-  const [repeatPattern, setRepeatPattern] = useState(true);
+  const [repeatPattern, setRepeatPattern] = useState(false);
   const [repeatCount, setRepeatCount] = useState(2);
   const [padding, setPadding] = useState(0);
   const [border, setBorder] = useState(0);
@@ -22,14 +22,26 @@ const DesignEditor = ({ imageSrc }) => {
   const [imagePosition, setImagePosition] = useState('center'); // 'bottom', 'left', 'center'
   const [rotation, setRotation] = useState(0); // degrees: 0, 90, 180, 270
 
+  // When design image changes, automatically enable autoFit and reset scale
+  useEffect(() => {
+    if (imageSrc) {
+      setDesignImage(imageSrc);
+      setAutoFit(true);
+      setScale(1);
+    }
+  }, [imageSrc]);
+
   const handleScaleChange = (e) => {
     setScale(parseFloat(e.target.value));
-    setAutoFit(false);
+    if (autoFit) setAutoFit(false);
   };
 
   const handleAutoFit = () => {
-    setAutoFit((prev) => !prev);
-    if (!autoFit) setScale(1);
+    setAutoFit((prev) => {
+      const newAutoFit = !prev;
+      if (newAutoFit) setScale(1);
+      return newAutoFit;
+    });
   };
 
   const getBackgroundPosition = () => {
@@ -44,16 +56,26 @@ const DesignEditor = ({ imageSrc }) => {
     }
   };
 
-  // FIXED: Return both width and height for scale
   const getBackgroundSize = () => {
-    if (!repeatPattern) {
-      return autoFit ? 'contain' : `${100 * scale}% ${100 * scale}%`;
+    const innerWidth = BOX_WIDTH - 2 * padding;
+    const innerHeight = BOX_HEIGHT - 2 * padding;
+
+    if (repeatPattern) {
+      const gap = 5; // px space between tiles
+      const widthPerRepeat = innerWidth / repeatCount;
+      const sizeWidth = widthPerRepeat - gap;
+      return `${sizeWidth}px auto`;
+    } else {
+      if (autoFit) {
+        return `${innerWidth}px ${innerHeight}px`;
+      } else {
+        return `${innerWidth * scale}px auto`;
+      }
     }
-    return `${100 / repeatCount}% auto`;
   };
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="relative flex flex-col items-center gap-2">
       {/* Image container */}
       <div
         className="relative overflow-hidden border border-gray-300 rounded"
@@ -70,11 +92,12 @@ const DesignEditor = ({ imageSrc }) => {
           mixBlendMode: 'multiply',
           transform: `rotate(${rotation}deg)`,
           transition: 'transform 0.3s ease',
+          boxSizing: 'border-box',
         }}
       />
 
       {/* Controls */}
-      <div className="flex items-center w-full gap-6 px-4 py-2 mt-3 bg-white rounded shadow ">
+      <div className="flex items-center w-full gap-6 px-4 py-2 mt-3 bg-white rounded shadow max-w-[600px]">
         <div className="flex flex-col">
           <label className="mb-1 text-xs font-medium">Scale Image</label>
           <input
@@ -83,7 +106,7 @@ const DesignEditor = ({ imageSrc }) => {
             max="3"
             step="0.01"
             value={scale}
-            disabled={autoFit}
+            
             onChange={handleScaleChange}
             className="w-32 accent-pink-500"
           />
@@ -132,7 +155,6 @@ const DesignEditor = ({ imageSrc }) => {
           setImagePosition={setImagePosition}
           rotation={rotation}
           setRotation={setRotation}
-
         />
       )}
     </div>

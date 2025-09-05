@@ -7,6 +7,7 @@ import 'swiper/css/navigation';
 import { FreeMode, Thumbs, Navigation } from 'swiper/modules';
 import DesignEditor from './DesignEditor'; // Make sure this path is correct
 
+
 const ImagePreview = ({ designImage, widthFt, widthIn, heightFt, heightIn }) => {
 
 
@@ -159,7 +160,8 @@ const ImagePreview = ({ designImage, widthFt, widthIn, heightFt, heightIn }) => 
       </div>
 
       {/* Main Preview */}
-      <div className="flex justify-center flex-1">{renderPreview()}</div>
+       
+      <div className="flex justify-center flex-1 ">{renderPreview()}</div>
     </div>
   );
 };
